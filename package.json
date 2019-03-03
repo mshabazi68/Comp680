@@ -1,0 +1,29 @@
+{
+  "name": "Comp680",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mshabazi68/Comp680.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mshabazi68/Comp680/issues"
+  },
+  "homepage": "https://github.com/mshabazi68/Comp680#readme",
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "graphql": "^14.1.1",
+    "graphql-yoga": "^1.17.4",
+    "mongoose": "^5.4.16"
+  }
+}
