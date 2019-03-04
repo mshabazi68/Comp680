@@ -5,7 +5,8 @@ import { ApolloProvider } from 'react-apollo';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
-import Counter from './components/counter';
+import SearchBarComp from './components/searchField';
+import "./index.css";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/"
@@ -13,8 +14,13 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-      <Counter/>
-      <App />
+    <div id="mainPage">
+      <center>
+        <h1>Welcome to the Travel Planner</h1>
+        <SearchBarComp/>
+        </center>
+        {/* <App /> */}
+      </div>
     </ApolloProvider>, 
     document.getElementById('root')
 );

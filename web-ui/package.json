@@ -13,7 +13,8 @@
     "react-dom": "^16.8.3",
     "react-native-elements": "^1.1.0",
     "react-native-vector-icons": "^6.3.0",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "react-search-field": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
