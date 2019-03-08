@@ -4,8 +4,8 @@ import {Form} from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.css';
+import GlobalNavBar from './globalNavBar';
 
 function simulateNetworkRequest() {
     return new Promise(resolve => setTimeout(resolve, 500));
@@ -39,12 +39,22 @@ class FirstPageForm extends Component {
 
             
             <div>
-                <Nav className="navbar navbar-expand-lg navbar-dark bg-primary m4">NavBar</Nav>
+                <GlobalNavBar/>
                 <h2 className="my-4" >Welcome to the Travel Planner</h2>
                 <Form>
                     <Row>
-                        <Col><LocationField key={0} idValue={"location1"} placeholder={"Where from?"}/> </Col>
-                        <Col><LocationField key={1} idValue={"location2"} placeholder={"Where to?"}/> </Col>
+                        <Col><LocationField 
+                            key={0}
+                            idValue={"location1"}
+                            placeholder={"Where from?"}
+                            /> 
+                        </Col>
+                        <Col><LocationField 
+                            key={1} 
+                            idValue={"location2"}
+                            placeholder={"Where to?"}
+                            /> 
+                        </Col>
                     </Row>
                     <Button variant="outline-primary" 
                             className="btn btn-secondary m-4  mt-5"
