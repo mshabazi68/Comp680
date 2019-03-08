@@ -19,7 +19,7 @@ class LocationField extends Component {
     
       handlePlaceChanged() {
         const place = this.autocomplete.getPlace();
-        // this.props.onPlaceChanged(place);
+        this.props.onPlaceChanged(place);
       }
 
 
@@ -28,7 +28,7 @@ class LocationField extends Component {
         return (  
         
         <Form.Control 
-        onChange={this.handlePlaceChanged} 
+        // onChange={this.handlePlaceChanged} 
         placeholder={this.props.placeholder} 
         id={this.props.idValue} 
         ref={this.autocompleteInput} 
