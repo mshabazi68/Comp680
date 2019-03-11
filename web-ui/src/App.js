@@ -35,11 +35,11 @@ class App extends Component {
       //       </Paper>
       //     </div>
       // </div>
-      <div id="mainPage">
-      <center>    
-        <FirstPageForm/>
-        </center>
-      </div>
+        <div id="mainPage">
+        <center>    
+          <FirstPageForm/>
+          </center>
+        </div>    
     );
   }
 }
