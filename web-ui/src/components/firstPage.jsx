@@ -21,7 +21,9 @@ class FirstPageForm extends Component {
         secondField : "",
         notExist : false,
         startDate: new Date(),
-        endDate: new Date()
+        endDate: new Date(),
+        saveStartDate : "",
+        saveEndDate : ""
 
      };
      
@@ -32,10 +34,17 @@ class FirstPageForm extends Component {
         this.handleChangeEnd = this.handleChangeEnd.bind(this);
     };
 
-    handleChangeStart(date) {
+    handleChangeStart(date){
         this.setState({
           startDate: date
+        },()=>{
+            if(this.state.startDate > this.state.endDate){
+                this.setState({
+                    endDate : this.state.startDate
+                })
+            }
         });
+
       }
 
 
@@ -50,11 +59,15 @@ class FirstPageForm extends Component {
         document.getElementById("location1").className != "justify-content-md-center w-75  form-control is-invalid form-control"
         && document.getElementById("location2").className != "justify-content-md-center w-75  form-control is-invalid form-control"
         && document.getElementById("location1place").innerHTML!="{} "
-        && document.getElementById("location2place").innerHTML!="{} ")
+        && document.getElementById("location2place").innerHTML!="{} "
+        && this.state.startDate != null
+        && this.state.endDate != null )
         {
             this.setState({firstField: this.state.firstField = document.getElementById("location1").value});
             this.setState({secondField: this.state.secondField = document.getElementById("location2").value});
             this.setState({notExist : false})
+            this.setState({saveStartDate : this.state.startDate})
+            this.setState({saveEndDate : this.state.endDate})
         }
         else{
             this.setState({notExist : true})
@@ -70,6 +83,7 @@ class FirstPageForm extends Component {
 
 
     render() { 
+        const todayDate = new Date();
 
         return ( 
             <div>
@@ -93,9 +107,10 @@ class FirstPageForm extends Component {
                     <Row>
                         <Col>
                             <center>
-                                <label htmlFor="startDate" >Depart:</label>
+                                <label htmlFor="startDate" className={"pt-4"}>Depart:</label>
                             </center>
                             <DatePicker 
+                                minDate={todayDate }
                                 id={"startDate"}
                                 className={"justify-content-md-center w-75"}
                                 value={this.state.startDate}
@@ -104,9 +119,10 @@ class FirstPageForm extends Component {
                         </Col>
                         <Col>
                             <center>
-                                <label htmlFor="endDate" >Return:</label>
+                                <label htmlFor="endDate" className={"pt-4"} >Return:</label>
                             </center>
                             <DatePicker
+                                minDate={this.state.startDate > todayDate ? this.state.startDate:todayDate}
                                 id={"endDate"}
                                 className={"justify-content-md-center w-75"}
                                 value={this.state.endDate}
@@ -118,7 +134,7 @@ class FirstPageForm extends Component {
                         <Button 
                         id={"submitButton"}
                         variant="outline-primary" 
-                        className="btn btn-secondary m-4  mt-5"
+                        className="btn btn-secondary  mt-5"
                         disabled={this.state.isLoading}
                         onClick={!this.state.isLoading ? this.handleClick : null } 
                     >
@@ -127,11 +143,13 @@ class FirstPageForm extends Component {
              
                 </Form>
                 <label htmlFor="submitButton" style={{color: 'red'}} >
-                        {this.state.notExist? "Please select correct location.":null}
+                        {this.state.notExist? "Please complete the form.":null}
                 </label>
                 
                 <div id={"firstField"}>{this.state.notExist? null:this.state.firstField}</div>
                 <div id={"secondField"}>{this.state.notExist? null:this.state.secondField}</div>
+                <div id={"startDate"}>{this.state.notExist? null:this.state.saveStartDate.toLocaleString('us-GB', { timeZone: 'UTC' })}</div>
+                <div id={"endDate"}>{this.state.notExist? null:this.state.saveEndDate.toLocaleString('us-GB', { timeZone: 'UTC' })}</div>
                 
             </div>
             );
