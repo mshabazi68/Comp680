@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import GlobalNavBar from './globalNavBar';
 import AutocompleteField from './fieldWithAutocomplete';
 import DatePicker from 'react-date-picker';
+import TravelRadio from './travelCheckRadio';
+import CheckBoxFood from './foodCheckBox';
 // import DatePicker from "react-datepicker";
 import 'bootstrap/dist/css/bootstrap.css';
 // import "react-datepicker/dist/react-datepicker.css";
@@ -23,8 +25,9 @@ class FirstPageForm extends Component {
         startDate: new Date(),
         endDate: new Date(),
         saveStartDate : "",
-        saveEndDate : ""
-
+        saveEndDate : "",
+        travelRadio : "",
+        foods : [],
      };
      
     constructor(){
@@ -53,31 +56,54 @@ class FirstPageForm extends Component {
       endDate: date
     });
     }
+    
 
-    handleClick() {
-        if(
-        document.getElementById("location1").className != "justify-content-md-center w-75  form-control is-invalid form-control"
-        && document.getElementById("location2").className != "justify-content-md-center w-75  form-control is-invalid form-control"
-        && document.getElementById("location1place").innerHTML!="{} "
-        && document.getElementById("location2place").innerHTML!="{} "
-        && this.state.startDate != null
-        && this.state.endDate != null )
-        {
-            this.setState({firstField: this.state.firstField = document.getElementById("location1").value});
-            this.setState({secondField: this.state.secondField = document.getElementById("location2").value});
-            this.setState({notExist : false})
-            this.setState({saveStartDate : this.state.startDate})
-            this.setState({saveEndDate : this.state.endDate})
-        }
-        else{
-            this.setState({notExist : true})
-        }
+    handleClick=()=> {
 
-        this.setState({ isLoading: true }, () => {
-          simulateNetworkRequest().then(() => {
-            this.setState({ isLoading: false });
-          });
-        });
+        
+            var radio = document.getElementsByName('travelRadio');
+            var radio_value;
+            for(var i = 0; i < radio.length; i++){
+                if(radio[i].checked){
+                    radio_value = radio[i].id;
+                }
+            }
+            var foods = document.getElementsByName('foodCheckBox');
+            var selectedFood  = [];
+            for(var j=0;j<foods.length;j++){
+                if(foods[j].checked){
+                    selectedFood.push(foods[j].id)
+                }
+            }
+            if(
+            document.getElementById("location1").className !== "justify-content-md-center w-75  form-control is-invalid form-control"
+            && document.getElementById("location2").className !== "justify-content-md-center w-75  form-control is-invalid form-control"
+            && document.getElementById("location1place").innerHTML!== "{} "
+            && document.getElementById("location2place").innerHTML!=="{} "
+            && this.state.startDate !== null
+            && this.state.endDate !== null 
+            && typeof radio_value !== "undefined" )
+            
+            {
+                this.setState({firstField: this.state.firstField = document.getElementById("location1").value});
+                this.setState({secondField: this.state.secondField = document.getElementById("location2").value});
+                this.setState({notExist : false})
+                this.setState({saveStartDate : this.state.startDate})
+                this.setState({saveEndDate : this.state.endDate})
+                this.setState({travelRadio: radio_value})
+                this.setState({foods : selectedFood})
+                window.location.assign('/result')
+            }
+            else{
+                this.setState({notExist : true})
+            }
+
+            this.setState({ isLoading: true }, () => {
+                simulateNetworkRequest().then(() => {
+                    this.setState({ isLoading: false });
+                });
+            });
+            
       };
 
 
@@ -86,7 +112,7 @@ class FirstPageForm extends Component {
         const todayDate = new Date();
 
         return ( 
-            <div>
+            <div style={{overflow: 'auto'}} >
                 <GlobalNavBar/>
                 <h2 className="my-4" >Welcome to the Travel Planner</h2>
                 <Form>
@@ -129,8 +155,15 @@ class FirstPageForm extends Component {
                                 onChange={this.handleChangeEnd}
                             />
                         </Col>
-  
                     </Row>
+  
+                    <Row>
+                        <TravelRadio></TravelRadio>
+                    </Row>
+                    <Row>
+                        <CheckBoxFood></CheckBoxFood>
+                    </Row>
+                    
                         <Button 
                         id={"submitButton"}
                         variant="outline-primary" 
@@ -150,6 +183,8 @@ class FirstPageForm extends Component {
                 <div id={"secondField"}>{this.state.notExist? null:this.state.secondField}</div>
                 <div id={"startDate"}>{this.state.notExist? null:this.state.saveStartDate.toLocaleString('us-GB', { timeZone: 'UTC' })}</div>
                 <div id={"endDate"}>{this.state.notExist? null:this.state.saveEndDate.toLocaleString('us-GB', { timeZone: 'UTC' })}</div>
+                <div id={"travelRadioResult"}>{this.state.notExist? null:this.state.travelRadio}</div>
+                <div id={"foodsResult"}>{this.state.notExist? null:this.state.foods}</div>
                 
             </div>
             );

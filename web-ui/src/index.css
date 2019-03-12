@@ -1,10 +1,11 @@
-#mainPage { 
-    min-height: 100%;
-    min-width: 1024px;
+body { 
+    height:auto !important;
+    min-width: 100%;
     width: 100%;
     height: auto;
-    position: fixed;
+    position: auto;
     /* top: 0;
     left: 0; */
+  
     background-color: rgba(200, 158, 255, 0.103);
   }
