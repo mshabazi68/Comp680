@@ -1,4 +1,3 @@
-/* global google */
 import React, { Component } from 'react';
 import LocationField from './locationField';
 import 'bootstrap/dist/css/bootstrap.css';

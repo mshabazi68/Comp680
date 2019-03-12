@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import FirstPageForm from './components/firstPage';
+import  SecondPageResult from './components/secondPage';
+import {BrowserRouter, Route} from 'react-router-dom';
+
 // import SearchBarComp from './components/searchField';
 // import gql from 'graphql-tag';
 // import {graphql} from 'react-apollo';
@@ -35,11 +38,18 @@ class App extends Component {
       //       </Paper>
       //     </div>
       // </div>
-        <div id="mainPage">
-        <center>    
-          <FirstPageForm/>
-          </center>
-        </div>    
+      <BrowserRouter>
+        <div>
+          <Route exact={true} path='/' render={() => (
+            <center>    
+              <FirstPageForm/>
+            </center>
+            )}/>
+          <Route exact={true} path='/result' render={() => (
+            <SecondPageResult/>
+          )}/>
+        </div>  
+        </BrowserRouter>  
     );
   }
 }
@@ -47,3 +57,7 @@ class App extends Component {
 // export default graphql(UsersQuery)(App);
 
 export default App;
+
+
+
+// npm install --save react-router-dom
