@@ -5,12 +5,12 @@ import Row from 'react-bootstrap/Row';
 
 class CheckBoxFood extends Component {
     state = {  }
-    render() { 
-        return ( 
+    render() {
+        return (
             <div className="ml-3">
             <Row>
                 <h5 className="mt-5 ml-5">What kind of food or/and drink do you like: </h5>
-            </Row> 
+            </Row>
             <Row>
                 <Form.Check
                 className=" pl-5 ml-5 mt-4"
@@ -54,7 +54,7 @@ class CheckBoxFood extends Component {
                 name="foodCheckBox"
                 id="Mediterranean"
                 />
-                
+
             </Row>
             <Row>
             <Form.Check
@@ -150,5 +150,5 @@ class CheckBoxFood extends Component {
          );
     }
 }
- 
+
 export default CheckBoxFood;
