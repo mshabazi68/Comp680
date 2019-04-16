@@ -1,0 +1,34 @@
+class SkyscannerWidgetComponent extends React.Component {
+  render() {
+    return (
+      <div
+        ref={e => this.element = e}
+        data-skyscanner-widget='LocationWidget'
+        data-locale='en-GB'
+        data-params='whitelabeldomain:flights.tripping.com'
+        data-location-name={this.props.location && `'${this.props.location}'` || undefined}
+        ></div>
+    )
+  }
+  componentDidMount() {
+    skyscanner.widgets.load(() => [this.element]);
+  }
+}
+
+class ExampleApplication extends React.Component {
+  render() {
+    return (
+      <div>
+        <div>Hello world</div>
+        <SkyscannerWidgetComponent location='Edinburgh' />
+        <SkyscannerWidgetComponent location='Lisbon' />
+        <SkyscannerWidgetComponent location='Barcelona' />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <ExampleApplication />,
+  document.getElementById('react-app')
+)
