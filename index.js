@@ -9,6 +9,7 @@ const User = mongoose.model('User',{
 });
 
 const TravelInfo = mongoose.model('TravelInfo',{
+    email: String,
     from: String,
     to: String,
     depart: String,
@@ -21,7 +22,7 @@ const typeDefs = `
   type Query {
     hello(name: String): String!
     users: [User]
-    travelInfos : [TravelInfo]
+    travelInfos(email: String!) : [TravelInfo]
   }
   type User{
     id: ID!
@@ -30,6 +31,7 @@ const typeDefs = `
   }
   type TravelInfo{
     id: ID!
+    email: String!
     from: String!
     to: String!
     depart: String!
@@ -41,8 +43,8 @@ const typeDefs = `
       createUser(firstName: String!,lastName: String!): User
       updateUser(id: ID!, firstName: String! , lastName : String!) : Boolean
       removeUser(id: ID!) : Boolean
-      createTravelInfo(from: String!,to: String!,depart: String!,ureturn: String!,how: String!,foods: [String]): TravelInfo
-      updateTravelInfo(id: ID!,from: String!,to: String!,depart: String!,ureturn: String!,how: String!,foods: [String]) : Boolean
+      createTravelInfo(email:String!, from: String!,to: String!,depart: String!,ureturn: String!,how: String!,foods: [String]): TravelInfo
+      updateTravelInfo(id: ID!,email:String!,from: String!,to: String!,depart: String!,ureturn: String!,how: String!,foods: [String]) : Boolean
       removeTravelInfo(id: ID!) : Boolean
   }
 `;
@@ -51,7 +53,7 @@ const resolvers = {
   Query: {
     hello: (_, { name }) => `Hello ${name || 'World'}`,
     users: () => User.find(),
-    travelInfos: () => TravelInfo.find()
+    travelInfos: (_,args) => TravelInfo.find(args)
   },
   Mutation: {
     createUser: async (_, { firstName,lastName}) => {
@@ -59,8 +61,8 @@ const resolvers = {
         await user.save();
         return user;
     },
-    createTravelInfo: async (_, {from,to,depart,ureturn,how,foods}) => {
-      const travelInfo = new TravelInfo({from,to,depart,ureturn,how,foods});
+    createTravelInfo: async (_, {email,from,to,depart,ureturn,how,foods}) => {
+      const travelInfo = new TravelInfo({email,from,to,depart,ureturn,how,foods});
       await travelInfo.save();
       return travelInfo;
    },
@@ -68,8 +70,8 @@ const resolvers = {
       await User.findByIdAndUpdate(id,{firstName,lastName});
       return true;
     },
-    updateTravelInfo: async (_, {id,from,to,depart,ureturn,how,foods}) => {
-      await TravelInfo.findByIdAndUpdate(id,{from,to,depart,ureturn,how,foods});
+    updateTravelInfo: async (_, {email,id,from,to,depart,ureturn,how,foods}) => {
+      await TravelInfo.findByIdAndUpdate(id,{email,from,to,depart,ureturn,how,foods});
       return true;
    },
     removeUser: async (_,{id}) => {

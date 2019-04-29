@@ -1,73 +1,82 @@
 import React, { Component } from 'react';
-import FirstPageForm from './components/firstPage';
-import  SecondPageResult from './components/secondPage';
-import {BrowserRouter, Route} from 'react-router-dom';
-import gql from 'graphql-tag';
-import {graphql , compose} from 'react-apollo';
+import FirstPageForm from './Pages/firstPage';
+import SecondPageResult from './Pages/secondPage';
+import Profile from './Pages/profile';
+import NavigatorBar from './components/globalNavBar';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import Amplify from 'aws-amplify';
+import aws_exports from './aws-exports';
+import { Authenticator } from 'aws-amplify-react';
+import { Auth, Hub, Logger } from 'aws-amplify';
+import { SignIn, SignOut, Loading } from 'aws-amplify-react/dist/Auth';
+import Greetings from 'aws-amplify-react/dist/Auth/Greetings';
+Amplify.configure(aws_exports);
 
-// const UsersQuery = gql`
-// {
-//   users {
-//     id
-//     firstName
-// 		lastName
-//   }
-// }
-// `;
-// const TravelInfoQuery = gql`
-// {
-//   travelInfos {
-//     id
-//     from
-//     to
-//     depart
-//     ureturn
-//     how
-//     foods
-//   }
-// }
-// `;
 
+const logger = new Logger('App');
 
 
 class App extends Component {
+  state = {
+    email : ""
+  }
+  constructor(props) {
+    super(props);
+
+    this.loadUser = this.loadUser.bind(this);
+
+    Hub.listen('auth', this, 'main');
+
+    this.state = { user: null }
+  }
+  componentDidMount() {
+    this.loadUser();
+  }
+  onHubCapsule(capsule) {
+    logger.info('on Auth event', capsule);
+    this.loadUser();
+  }
+  loadUser() {
+    Auth.currentAuthenticatedUser()
+      .then(user => this.setState({ user: user }))
+      .catch(err => this.setState({ user: null }));
+      Auth.currentUserInfo().then((userInfo) => {
+        const { attributes = {} } = userInfo;
+        this.setState({email: attributes["email"]})
+      })
+      .catch(err => this.setState({ email: null }));
+  }
+
   render() {
-    // const {data: {loading,users}} = this.props;
-    // if (loading){
-    //   return null;
-    // }
+    const { user } = this.state;
     return (
-
-
-      <BrowserRouter>
-        <div>
-          <Route exact={true} path='/' render={() => (
-            <center>
-              <FirstPageForm/>
-              {/* <div style={{display: 'flex'}}>
-              <div style={{margin:'auto',width: 400}}>
-                  {users.map(user =>
-                    <div key={`${user.id}-todo-item`}>{user.firstName}  {user.lastName}</div>
-                  )}
-              </div>
-              </div> */}
-            </center>
-            )}/>
-          <Route exact={true} path='/result' render={() => (
-            <center>
-            <SecondPageResult/>
-            </center>
-          )}/>
-        </div>
-        </BrowserRouter>
+      <React.Fragment>
+        <NavigatorBar/>
+        <Authenticator hide={[Loading,Greetings]}/>
+        <HashRouter>
+            <Switch>
+              <Route exact={true} path='/' render={(props) => (
+              <center>
+                <FirstPageForm user={user}/>
+              </center>
+              )}/>
+              <Route exact={true} path='/result' render={(props) => (
+                <center>
+                <SecondPageResult user={user} email={this.state.email}/>
+                </center>
+              )}/>
+              <Route exact={true} path='/Profile' render={(props) => (
+                <center>
+                <Profile user={user}/>
+                </center>
+              )}/>
+            </Switch>
+          </HashRouter>
+      </React.Fragment>
     );
   }
 }
 
-// export default graphql(TravelInfoQuery)(App);
-
 export default App;
-
-
 
 // npm install --save react-router-dom

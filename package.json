@@ -20,6 +20,9 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "aws-amplify": "^1.1.26",
+    "aws-amplify-react": "^2.3.6",
+    "aws-amplify-react-native": "^2.1.10",
     "bootstrap": "^4.3.1",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
