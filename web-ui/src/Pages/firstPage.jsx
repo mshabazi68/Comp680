@@ -30,7 +30,7 @@ const UpdateMutation = gql`
 `;
 
 function simulateNetworkRequest() {
-    return new Promise(resolve => setTimeout(resolve, 2000));
+    return new Promise(resolve => setTimeout(resolve, 1000));
   }
 
 class FirstPageForm extends Component {
@@ -73,6 +73,7 @@ class FirstPageForm extends Component {
         });
 
       }
+      
 
 
   handleChangeEnd(date) {
@@ -82,7 +83,7 @@ class FirstPageForm extends Component {
     }
 
 
-    handleClick= ()=> {
+    handleClick= ()=> {        
             var radio = document.getElementsByName('travelRadio');
             var radio_value;
             for(var i = 0; i < radio.length; i++){
@@ -97,6 +98,7 @@ class FirstPageForm extends Component {
                     selectedFood.push(foods[j].id)
                 }
             }
+            
             if(
             document.getElementById("location1").className !== "justify-content-md-center w-75  form-control is-invalid form-control"
             && document.getElementById("location2").className !== "justify-content-md-center w-75  form-control is-invalid form-control"

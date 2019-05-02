@@ -22,7 +22,7 @@ export default class NavigatorBar extends Component {
 
         return (                
              <Navbar className="navbar navbar-expand-lg navbar-dark bg-primary ">
-                <Navbar.Brand href="/#">Team2</Navbar.Brand>
+                <Navbar.Brand href="#/">Team2</Navbar.Brand>
                 <Navbar.Toggle target="#navbarsExampleDefault" />
                 <Navbar.Collapse id="navbarsExampleDefault">
                     
@@ -31,7 +31,10 @@ export default class NavigatorBar extends Component {
                             <a className="nav-link" href="#/">Home <span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
-                        <a className="nav-link" href="#/Profile">Profile <span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#/Profile">Profile <span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#/result">Last Search <span className="sr-only">(current)</span></a>
                         </li>
                     </ul>
                     <Navbar.Text className={"mr-3"}>Hi {this.state.name}     </Navbar.Text>
